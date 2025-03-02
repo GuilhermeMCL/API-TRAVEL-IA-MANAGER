@@ -1,15 +1,17 @@
 import { env } from "@/env";
 import { prisma } from "@/lib/prisma";
 import { FastifyReply, FastifyRequest } from "fastify";
-import OpenAI from "openai";
 import z from "zod";
+import { GoogleGenerativeAI } from "@google/generative-ai";
+
+
 
 
 export class ItineraryControllers {
     async createItinerary(request: FastifyRequest, reply: FastifyReply) {
-        const openai = new OpenAI({
+        /*const openai = new OpenAI({
             apiKey: env.OPENAI_API_KEY
-        });
+        }); */
         const parmsSchema = z.object({
             id: z.string()
         })
@@ -31,25 +33,18 @@ export class ItineraryControllers {
 
 
         try {
-            const response = await openai.chat.completions.create({
-                model: "gpt-4",
-                messages: [
-                    {
-                        role: "system", content: "voce é um assistente profissional de viagens que cria roteiros detalhados "
-                    },
-                    {
-                        role: "user", content: `crie um roteiro detalhado de viagem com pontos turisticos e atividades recomendadas para ${trip.city} entre ${trip.startDate} e ${trip.endDate}, coloque os custo de gasto medio das atividades e alimentação`
-                    }
-                ]
-            })
-            const itinerary = response.choices[0].message.content || "Roteiro nao criado | Itinerary not created"
 
+            const genAI = new GoogleGenerativeAI(env.OPENAI_API_KEY);
+            const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+            const prompt = `voce é um assistente profissional de viagens que cria roteiros detalhados,crie um roteiro detalhado de viagem com pontos turisticos e atividades recomendadas para ${trip.city} entre ${trip.startDate} e ${trip.endDate}, coloque os custo de gasto medio das atividades e alimentação`;
+
+            const result = await model.generateContent(prompt);
             const updateTrip = await prisma.trip.update({
                 where: {
                     id
                 },
                 data: {
-                    itinerary
+                    itinerary: result.response.text()
                 }
             })
 
