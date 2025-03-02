@@ -6,7 +6,7 @@ const tripsControllers = new TripsControllers();
 
 
 export async function tripsRoutes(app: FastifyInstance) {
-    tripsFunction(app);
+    await tripsFunction(app);
     app.post("/trips", tripsControllers.createTrips)
     app.get("/trips", tripsControllers.getTrips)
 
