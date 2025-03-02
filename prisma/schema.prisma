@@ -1,0 +1,30 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int    @id @default(autoincrement())
+  name     String
+  email    String @unique
+  password String
+  trips    Trip[]
+}
+
+model Trip {
+  id        String   @id @default(uuid()) // ID único para a viagem
+  name      String // Nome da viagem
+  city      String // Cidade de destino
+  startDate DateTime // Data de início da viagem
+  endDate   DateTime // Data de término da viagem
+  itinerary String? // Itinerário gerado pela OpenAI (opcional)
+  userId    Int // ID do usuário que criou a viagem
+  user      User     @relation(fields: [userId], references: [id])
+}
