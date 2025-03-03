@@ -64,6 +64,4 @@ export class UserControllers {
         return reply.send({ token })
 
     }
-
-
 }

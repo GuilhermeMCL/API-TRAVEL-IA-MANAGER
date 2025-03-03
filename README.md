@@ -110,28 +110,12 @@ Antes de iniciar, certifique-se de ter instalado:
 
 - **GET** `/trips` → Listar todas as viagens
 - **POST** `/trips` → Criar uma nova viagem
-- **GET** `/trips/:id` → Obter detalhes de uma viagem
-- **PUT** `/trips/:id` → Atualizar informações da viagem
-- **DELETE** `/trips/:id` → Remover uma viagem
-
-### 👥 Passageiros
-
-- **POST** `/trips/:id/passengers` → Adicionar passageiro à viagem
-- **GET** `/trips/:id/passengers` → Listar passageiros da viagem
 
 ### 📍 Roteiros
 
 - **POST** `/trips/:id/itinerary` → Criar um itinerário para a viagem
 - **GET** `/trips/:id/itinerary` → Listar itinerário da viagem
 
-### 🎫 Reservas
-
-- **POST** `/trips/:id/reservations` → Criar uma reserva para um usuário
-- **GET** `/trips/:id/reservations` → Listar reservas da viagem
-
-### 📊 Status
-
-- **GET** `/trips/:id/status` → Verificar status da viagem
 
 ## 📝 Contribuição
 
